@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donie aleana studio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">Donie aleana studio</div>
+                <div class="nav-right">
+                    <button class="nav-btn" onclick="showSection('home')">首頁</button>
+                    <button class="nav-btn" onclick="showSection('products')">所有商品</button>
+                    <button class="nav-btn" onclick="showSection('about')">關於我們</button>
+                    <button class="nav-btn" id="loginBtn" onclick="showSection('login')">登入</button>
+                    <button class="cart-btn" onclick="showSection('cart')">🛍️ <span id="cartCount">0</span></button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Donie aleana studio</h1>
+                <p class="subtitle">精選二手衣服 & 套裝</p>
+                <div class="hero-divider"></div>
+                <p class="hero-description">嚴選優質二手衣服，展現你的獨特風格</p>
+                <button class="btn-primary" onclick="showSection('products')">開始逛衣服</button>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="section">
+            <div class="container">
+                <h2>所有商品</h2>
+                <div class="filter-bar">
+                    <input type="text" id="searchInput" placeholder="搜尋商品..." class="search-input">
+                    <select id="categoryFilter" class="category-select">
+                        <option value="">所有分類</option>
+                        <option value="二手衣">二手衣</option>
+                        <option value="套裝">套裝</option>
+                    </select>
+                </div>
+                <div class="products-grid" id="productsGrid">
+                    <!-- 商品會從這裡動態加載 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Detail Modal -->
+        <div id="productModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="product-detail">
+                    <img id="modalImage" src="" alt="商品" class="modal-image">
+                    <div class="product-info">
+                        <h2 id="modalName"></h2>
+                        <p id="modalCategory" class="category-tag"></p>
+                        <p id="modalDescription" class="product-description"></p>
+                        <div class="price-section">
+                            <span id="modalPrice" class="price"></span>
+                        </div>
+                        <div class="size-section" id="sizeSection" style="display:none;">
+                            <label>選擇尺寸：</label>
+                            <div id="sizeOptions" class="size-options"></div>
+                        </div>
+                        <div class="quantity-section">
+                            <label>數量：</label>
+                            <input type="number" id="quantity" value="1" min="1" class="quantity-input">
+                        </div>
+                        <button class="btn-primary" onclick="addToCart()">加入購物車</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shopping Cart Section -->
+        <section id="cart" class="section">
+            <div class="container">
+                <h2>購物車</h2>
+                <div id="cartEmpty" class="empty-state">
+                    <p>購物車是空的</p>
+                    <button class="btn-primary" onclick="showSection('products')">繼續逛衣服</button>
+                </div>
+                <div id="cartContent" style="display:none;">
+                    <div class="cart-items" id="cartItems"></div>
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>小計：</span>
+                            <span id="subtotal">$0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>合計：</span>
+                            <span id="total">$0</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="checkout()">結帳</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2>關於我們</h2>
+                <div class="about-content">
+                    <p>歡迎來到 Donie aleana studio！</p>
+                    <p>我們精選優質的二手衣服和套裝，讓你以更親民的價格穿上喜愛的服飾。</p>
+                    
+                    <h3>聯絡方式</h3>
+                    <div class="contact-info">
+                        <p>📱 LINE：<a href="https://line.me/R/oic/1234567890" target="_blank">@donie.aleana</a></p>
+                        <p>💬 Instagram：@donie.aleana.studio</p>
+                    </div>
+
+                    <h3>購買須知</h3>
+                    <ul class="info-list">
+                        <li>✓ 所有商品均已消毒清潔</li>
+                        <li>✓ 提供多種付款方式</li>
+                        <li>✓ 享有 7 天鑑賞期</li>
+                        <li>✓ 會員享有優惠價格</li>
+                    </ul>
+
+                    <h3>付款方式</h3>
+                    <div class="payment-methods">
+                        <div class="payment-item">
+                            <h4>銀行匯款</h4>
+                            <p>銀行代號：012<br>帳號：12345678<br>戶名：Donie Studio</p>
+                        </div>
+                        <div class="payment-item">
+                            <h4>貨到付款</h4>
+                            <p>於收件時支付</p>
+                        </div>
+                    </div>
+
+                    <h3>退換貨政策</h3>
+                    <p>商品自收到日起 7 天內，若有任何問題可聯絡我們進行退換。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login" class="section">
+            <div class="container login-container">
+                <div class="login-box">
+                    <h2>會員登入</h2>
+                    <div id="loginForm">
+                        <input type="email" id="loginEmail" placeholder="請輸入信箱" class="input-field">
+                        <input type="password" id="loginPassword" placeholder="請輸入密碼" class="input-field">
+                        <button class="btn-primary" onclick="login()">登入</button>
+                        <p class="toggle-form">還沒有帳號？<a href="#" onclick="toggleForm()">立即註冊</a></p>
+                    </div>
+                    <div id="registerForm" style="display:none;">
+                        <input type="text" id="registerName" placeholder="請輸入姓名" class="input-field">
+                        <input type="email" id="registerEmail" placeholder="請輸入信箱" class="input-field">
+                        <input type="password" id="registerPassword" placeholder="請設定密碼" class="input-field">
+                        <input type="password" id="registerPassword2" placeholder="確認密碼" class="input-field">
+                        <button class="btn-primary" onclick="register()">註冊</button>
+                        <p class="toggle-form">已有帳號？<a href="#" onclick="toggleForm()">立即登入</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel -->
+        <section id="admin" class="section" style="display:none;">
+            <div class="container">
+                <h2>後台管理</h2>
+                <div class="admin-panel">
+                    <button class="btn-primary" onclick="showAddProduct()">新增商品</button>
+                    <button class="btn-secondary" onclick="logout()">登出</button>
+                </div>
+                <div id="addProductForm" style="display:none;" class="form-container">
+                    <h3>新增商品</h3>
+                    <input type="text" id="productName" placeholder="商品名稱" class="input-field">
+                    <select id="productCategory" class="input-field">
+                        <option value="二手衣">二手衣</option>
+                        <option value="套裝">套裝</option>
+                    </select>
+                    <input type="number" id="productPrice" placeholder="價格" class="input-field">
+                    <input type="text" id="productSize" placeholder="尺寸 (逗號分隔，如: S,M,L)" class="input-field">
+                    <textarea id="productDescription" placeholder="商品描述" class="input-field"></textarea>
+                    <input type="text" id="productImage" placeholder="圖片 URL" class="input-field">
+                    <button class="btn-primary" onclick="addProduct()">新增</button>
+                </div>
+                <div id="productsList" class="products-grid"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
